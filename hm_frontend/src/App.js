@@ -1,10 +1,14 @@
 import React from 'react';
-import HelloWorld from './Components/HelloWorld';
+import Login from './Components/Login';
+import Register from './Components/Register';
+
 
 function App() {
   return (
     <div>
-      <HelloWorld />
+      <Login />
+      <br />
+      <Register />
     </div>
   );
 }

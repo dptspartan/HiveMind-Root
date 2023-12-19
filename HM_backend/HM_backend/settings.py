@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "hm_api",
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,16 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+AUTHENTICATION_CLASSES = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -117,6 +128,10 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+CSRF_USE_SESSIONS = True
+CSRF_COOKIE_SECURE = True  # Adjust based on your HTTPS setup
+CSRF_COOKIE_HTTPONLY = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
