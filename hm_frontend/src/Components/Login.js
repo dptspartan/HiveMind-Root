@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../AuthContext';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const { isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
     const handle_login = async (event) => {
+        console.log(isAuthenticated)
         event.preventDefault();
         try {
             const formData = new FormData();
@@ -18,11 +20,11 @@ function Login() {
                 },
             }
             );
-
             console.log(response.data.message);
         } catch (error) {
             console.error(error.response.data.message);
         }
+        setIsAuthenticated(true)
     };
     return (
     <div>

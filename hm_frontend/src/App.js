@@ -1,15 +1,14 @@
-import React from 'react';
-import Login from './Components/Login';
-import Register from './Components/Register';
-
+import React, { useState, useContext } from 'react';
+import MainSign from './Components/MainSign';
+import { UserAuthProvider } from './AuthContext';
+import HelloWorld from "./Components/HelloWorld"
 
 function App() {
+  //const { isAuthenticated, user } = useContext(AuthContext);
   return (
-    <div>
-      <Login />
-      <br />
-      <Register />
-    </div>
+    <UserAuthProvider>
+      <MainSign />
+    </UserAuthProvider>
   );
 }
 
