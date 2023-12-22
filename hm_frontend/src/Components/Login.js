@@ -9,7 +9,6 @@ function Login() {
     const [password, setPassword] = useState('');
     const { isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
     const handle_login = async (event) => {
-        console.log(isAuthenticated)
         event.preventDefault();
         try {
             const formData = new FormData();
@@ -22,7 +21,7 @@ function Login() {
                 },
             }
             );
-            console.log(response.data.message);
+            console.log(response.data);
         } catch (error) {
             console.error(error.response.data.message);
         }

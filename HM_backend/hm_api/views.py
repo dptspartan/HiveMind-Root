@@ -23,7 +23,7 @@ class UserView:
             if (user):
                 login(request, user)
                 return Response({'message': 'Login Successful',
-                                 'User': user})
+                                 'user': user.id})
             else:
                 return Response({'message': 'Login Failed'}, status=401)
     def logout_user(request):
@@ -44,6 +44,11 @@ class UserView:
                                  'User': user})
             else:
                 return Response({'message': 'User already exists'}, status=401)
+    def findUser(request):
+        if (request.method == 'POST'):
+            username = request.POST.get("username")
+            user = User.objects.filter(username=username)
+            return Response(user)
 
 class FriendsView:
     @api_view(['POST'])
@@ -53,11 +58,10 @@ class FriendsView:
             # Assuming a JSON request
         from_user = request.POST.get("from_user")
         to_user = request.POST.get("to_user")
+        from_user = User.objects.get(id = int(from_user))
+        to_user = User.objects.get(id = int(to_user))
             # Check for existing request or friendship
         if FriendRequest.objects.filter(from_user=from_user, to_user=to_user).exists() or FriendRequest.objects.filter(from_user=to_user, to_user=from_user).exists():
-                return False  # Request already exists
-        if Friends.objects.filter(from_user=from_user, to_user=to_user).exists() or Friends.objects.filter(from_user=to_user, to_user=from_user).exists():
-                return False  # Already friends
-            # Create the friend request
+                return Response({'message': 'Friend Request already exists'}, status=401)  # Request already exists
         friend_request = FriendRequest.objects.create(from_user=from_user, to_user=to_user)
         return friend_request
