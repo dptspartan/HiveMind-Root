@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-toqioe@jhq$zi0$d4y79eq^wc1qy+8xo)y1^bq%g*gmt1@hc+0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -61,6 +61,8 @@ CORS_ALLOWED_ORIGINS = [
 AUTHENTICATION_CLASSES = [
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
