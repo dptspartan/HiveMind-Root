@@ -13,4 +13,15 @@ class FriendRequest(models.Model):
 
 
 class Friends(models.Model):
-    pass
+    from_user = models.ForeignKey(User, related_name='friend_1', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(User, related_name='friend_2', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['from_user', 'to_user'], name='unique_friends')
+        ]
+
+class Posts(models.Model):
+    user = models.ForeignKey(User, related_name='user_who_posted', on_delete=models.CASCADE)
+    caption = models.TextField(null=False)
+    image = models.ImageField()

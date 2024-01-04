@@ -5,7 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from .models import FriendRequest, Friends
+from .models import FriendRequest, Friends, Posts
+from .serializers import PostSerializer
 from django.db.models import Q
 import json
 
@@ -61,6 +62,8 @@ class UserView:
                     frndStatus = 'Add Friend'
                     if FriendRequest.objects.filter(from_user=me, to_user=user.id).exists() or FriendRequest.objects.filter(from_user=user.id, to_user=me).exists():
                         frndStatus = 'Request Sent'
+                    elif Friends.objects.filter(from_user=me, to_user=user.id).exists() or Friends.objects.filter(from_user=user.id, to_user=me).exists():
+                        frndStatus = 'Friends'
                     serialized_user = {
                         'id': user.id,
                         'username': user.username,
@@ -90,3 +93,38 @@ class FriendsView:
                 return Response({'message': 'Friend Request already exists'}, status=401)  # Request already exists
         FriendRequest.objects.create(from_user=from_user, to_user=to_user)
         return Response({'message': 'Friend Request Sent'})
+    @api_view(['POST'])
+    def get_friend_requests(request):
+        user_id = request.POST.get("user_id")
+        me = User.objects.get(id = int(user_id))
+        frnd_reqs = FriendRequest.objects.filter(to_user=me)
+        if frnd_reqs.exists() :
+            serialized_reqs = []
+            for req in frnd_reqs:
+                serialized_req = {
+                    'id' : req.id,
+                    'request_from' : req.from_user.username
+                }
+                serialized_reqs.append(serialized_req)
+            return Response({
+                'message': "You have friend phew i was starting to get worried about you",
+                'requests':serialized_reqs})
+        else:
+            return Response({'message': 'No-One wants to be your friend buddy you\'re all alone'}, status=401)
+    @api_view(['POST'])
+    def accept_friend_request(request):
+        frnd_req_id = request.POST.get('request_to_accept')
+        print(frnd_req_id)
+        frnd_req = FriendRequest.objects.get(pk=frnd_req_id)
+        if frnd_req != None:
+            Friends.objects.create(from_user=frnd_req.from_user,to_user=frnd_req.to_user)
+            frnd_req.delete()
+            return Response({'message': 'You are now friends'})
+        else:
+            return Response({'message': "Cant add you as friends"}, status=401)
+    def getFriendsfromid(id):
+        user = User.objects.get(pk=id)
+        friends = Friends.objects.get
+class PostView:
+    def getMainPagePosts(request):
+        pass
