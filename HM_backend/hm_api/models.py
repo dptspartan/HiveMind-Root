@@ -25,3 +25,8 @@ class Posts(models.Model):
     user = models.ForeignKey(User, related_name='user_who_posted', on_delete=models.CASCADE)
     caption = models.TextField(null=False)
     image = models.ImageField()
+    no_of_likes = models.IntegerField(default=0)
+
+class Likes(models.Model):
+    user = models.ForeignKey(User, related_name='user_who_liked', on_delete=models.CASCADE)
+    post = models.ForeignKey(Posts, related_name='post_liked', on_delete=models.CASCADE)
