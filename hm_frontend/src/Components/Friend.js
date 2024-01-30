@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 
-export default function FriendReqs({ foundfriend }) {
+export default function Friend({ foundfriend }) {
     const { id, username, first_name, last_name} = foundfriend;
   return (
     <div>

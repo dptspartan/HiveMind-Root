@@ -44,6 +44,8 @@ class UserView:
     def findUser(request):
         if (request.method == 'POST'):
             search_text = request.data["searchText"]
+            if search_text=='':
+                return Response({'message': 'Empty Search Value'}, status=401)
             me = request.data["user"]
             matching_users = User.objects.filter(
             Q(username__icontains=search_text) |  # Case-insensitive search in username
@@ -158,11 +160,12 @@ class PostView:
     def makePost(request):
         user_id = request.data['user_id']
         caption = request.data['caption']
+        image = request.data['image']
         user = User.objects.get(pk=user_id)
         if not User:
             return Response({"message": "No User Found"}, status=404)
         try:
-            Posts.objects.create(user=user, caption=caption, image=None)
+            Posts.objects.create(user=user, caption=caption, image=image)
             return Response({"message": "Post Created"})
         except:
             return Response({"message": "Post Creation Failed"}, status=401)

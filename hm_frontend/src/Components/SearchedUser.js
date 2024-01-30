@@ -12,7 +12,7 @@ export default function SearchedUser({founduser}) {
                 const formData = new FormData();
                 formData.append('from_user', user);
                 formData.append('to_user', id);
-                const response = await axios.post('http://127.0.0.1:8000/api/friendRequest/', formData,
+                const response = await axios.post('http://127.0.0.1:8000/api/sendfriendRequest/', formData,
                 {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -26,10 +26,10 @@ export default function SearchedUser({founduser}) {
         }
     }
     return (
-        <div>
-            <p>Username: {username}</p>
-            <p>Full Name: {first_name} {last_name}</p>
+        <div id='searchedUser'>
+            <h4>{username} </h4>
             <button onClick={handle_addFriend}>{friend_status}</button>
+            <br id='break' />
         </div>
     )
 }

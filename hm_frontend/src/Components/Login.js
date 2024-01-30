@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
+import '../App.css'
 
 
 
@@ -30,12 +31,16 @@ function Login() {
         }
     };
     return (
-    <div>
+    <div id="login-container">
+        <div id="login-header">
         <h1>Login</h1>
-        <form onSubmit={handle_login}>
+        </div>
+        <form id= "login-form" onSubmit={handle_login}>
+            <label> Username</label>
             <input type='text' placeholder='Username' onChange={(e)=>setUsername(e.target.value)} />
+            <label>Password</label>
             <input type='text' placeholder='Password' onChange={(e)=>setPassword(e.target.value)} />
-            <input type="submit" />
+            <button type="submit">login</button> 
         </form>
     </div>
   )

@@ -1,9 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react'
 import UserSearch from './UserSearch'
 import FriendReqs from './FriendReqs'
+import MakePost from './MakePost'
 import Friend from './Friend'
 import axios from 'axios'
 import { AuthContext } from '../AuthContext'
+
 
 export default function MainPage() {
   const [seefrndReqs, setSeefrndReqs] = useState(false)
@@ -52,19 +54,22 @@ export default function MainPage() {
     fetchFriends();
   }, [])
   return (
-    <div>
-        <UserSearch />
+    <>
+      <UserSearch />
+      <div id='mainpage'>
         <button onClick={()=>{setSeefrndReqs(!seefrndReqs)}}>Friend Requests</button>
         {seefrndReqs? <div>
           {friendRequests.map((request) => (
           <FriendReqs key={request.id} foundrequest={request} />
           ))}
         </div> : <></>}
-        <div>
+        <div className='Friends'>
           {friends.map((friend) => (
           <Friend key={friend.id} foundfriend={friend} />
           ))}
         </div>
+        <MakePost />
     </div>
+    </>
   )
 }

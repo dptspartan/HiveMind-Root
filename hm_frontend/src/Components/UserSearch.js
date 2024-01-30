@@ -2,13 +2,19 @@ import React, { useState, useContext } from 'react'
 import axios from 'axios';
 import SearchedUser from './SearchedUser';
 import { AuthContext } from '../AuthContext';
+import '../App.css'
 
 export default function UserSearch() {
     const { user } = useContext(AuthContext);
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const [showResult, setShowResult] = useState(false);
+    const hideSearchResult = async (event) => {
+        event.preventDefault(false)
+        setShowResult(false)
+    }
     const handle_userSearch = async(event) => {
-        event.preventDefault();
+        event.preventDefault()
         try {
             const formData = new FormData();
             formData.append('searchText', searchText);
@@ -20,22 +26,33 @@ export default function UserSearch() {
                 },
             }
             );
-            console.log(response.data.Users);
             setSearchResults(response.data.Users);
+            setShowResult(true)
         } catch (error) {
-            console.error(error.response.data.message);
+            setSearchResults([])
+            setShowResult(false)
         }
     }
     return (
-    <div>
-        <h1>Add Friends</h1>
+    <>
+    <div id='top-bar'>
+    <div id='searchbar'>
         <form onSubmit={handle_userSearch}>
-            <input type='text' placeholder='Username' onChange={(e)=>setSearchText(e.target.value)} />
-            <input type="submit" />
+        <input id='searchbar-text' type='text' placeholder='Username' onChange={(e) => {setSearchText(e.target.value)}} />
+        <input id='searchbar-button' type='submit' value='🔍' />
         </form>
-        {searchResults.map((user) => (
-        <SearchedUser key={user.id} founduser={user} />
-      ))}
+
     </div>
+    </div>
+    { showResult?
+    <div id='searchresult'>
+    {searchResults.map((user) => (
+        <SearchedUser key={user.id} founduser={user} />
+        ))}
+    
+    <button id='searchResultHide' type='button' onClick={hideSearchResult} ><p>^</p></button>
+    </div>: <></>
+    }
+    </>
   )
 }
