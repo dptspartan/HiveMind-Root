@@ -24,7 +24,7 @@ class Friends(models.Model):
 class Posts(models.Model):
     user = models.ForeignKey(User, related_name='user_who_posted', on_delete=models.CASCADE)
     caption = models.TextField(null=False)
-    image = models.ImageField()
+    image = models.ImageField(upload_to='images/')
     no_of_likes = models.IntegerField(default=0)
 
 class Likes(models.Model):

@@ -18,17 +18,18 @@ export default function MakePost() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log(image)
     // You can add your logic here to handle form submission (e.g., sending data to a server)
     // For a basic example, you can just log the form data to the console
     try{
-      const data = {'user_id': user,
-              'caption': caption,
-              'image': image}
-      const response = axios.post('http://127.0.0.1:8000/api/makePost/', data,
+      const formData = new FormData();
+        formData.append('user_id', user);
+        formData.append('caption', caption);
+        formData.append('image', image);
+      const response = axios.post('http://127.0.0.1:8000/api/makePost/', formData,
               {
                   headers: {
-                      'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
                   },
               }
               );
@@ -57,7 +58,7 @@ export default function MakePost() {
           type="file"
           id="image"
           name="image"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/gif"
           onChange={handleImageChange}
           required
         />

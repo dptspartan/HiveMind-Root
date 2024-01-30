@@ -125,7 +125,6 @@ class FriendsView:
         user = User.objects.get(pk=user_id)
         friends = Friends.objects.filter(Q(from_user=user) | Q(to_user=user))
         friends = User.objects.filter(id__in=[friend.from_user.id if friend.to_user == user else friend.to_user.id for friend in friends])
-        
         #friends = FriendsView.get_friend_requests(user)
         if friends.exists():
             serialized_friends = []
