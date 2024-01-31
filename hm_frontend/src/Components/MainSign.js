@@ -7,7 +7,7 @@ export default function MainSign() {
     const { isAuthenticated } = useContext(AuthContext);
 
     return (
-        !isAuthenticated? <div className='mainsignup/in'><Form /></div> : <div><MainPage /></div>
+        !isAuthenticated? <div className='mainsignup/in'><Form /></div> : <div id='mainpageSwitch'><MainPage /></div>
       )
 
 

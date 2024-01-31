@@ -5,8 +5,10 @@ import { AuthContext } from '../AuthContext';
 export default function SearchedUser({founduser}) {
     const { user } = useContext(AuthContext);
     const { id, username, first_name, last_name, friend_status} = founduser;
+    const [frndsStatus, setFrndStatus] = useState(friend_status);
     const handle_addFriend = async(event) => {
         event.preventDefault()
+        console.log(frndsStatus)
         if (friend_status === 'Add Friend'){
             try {
                 const formData = new FormData();
@@ -19,7 +21,7 @@ export default function SearchedUser({founduser}) {
                     },
                 }
                 );
-                console.log(response.data);
+                setFrndStatus("Request Sent");
             } catch (error) {
                 console.error(error.response.data.message);
             }
@@ -28,7 +30,7 @@ export default function SearchedUser({founduser}) {
     return (
         <div id='searchedUser'>
             <h4>{username} </h4>
-            <button onClick={handle_addFriend}>{friend_status}</button>
+            <button onClick={handle_addFriend}>{frndsStatus}</button>
             <br id='break' />
         </div>
     )

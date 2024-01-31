@@ -8,7 +8,6 @@ export default function Register() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const handle_login = async (event) => {
-        event.preventDefault();
         try {
             const formData = new FormData();
             formData.append('username', username);
