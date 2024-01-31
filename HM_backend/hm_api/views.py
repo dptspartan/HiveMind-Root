@@ -146,15 +146,21 @@ class PostView:
     @api_view(['POST'])
     def getMainPagePosts(request):
         user_id = request.data['user_id']
-        user = User.objects.get(pk=user_id)
-        friends = Friends.objects.filter(Q(from_user=user) | Q(to_user=user))
-        friends_ids = [friend.from_user.id if friend.to_user == user else friend.to_user.id for friend in friends]
-        posts = Posts.objects.filter(user__in=friends_ids)
-        if posts.exists():
-            posts = posts.values()
-            return Response({"message": "Found these posts",
-                             "posts": posts})
-        return Response({"message": "No Posts Here"}, status=401)
+        if user_id:
+            try:
+                user = User.objects.get(pk=user_id)
+                friends = Friends.objects.filter(Q(from_user=user) | Q(to_user=user))
+                friends_ids = [friend.from_user.id if friend.to_user == user else friend.to_user.id for friend in friends]
+                posts = Posts.objects.filter(user__in=friends_ids)
+                if posts.exists():
+                    postsserialized = PostSerializer(posts, many=True)
+                    return Response({"message": "Found these posts", "posts": postsserialized.data})
+                return Response({"message": "No Posts Here"}, status=200)
+
+            except User.DoesNotExist:
+                return Response({"message": "User not found"}, status=404)
+
+        return Response({"message": "Invalid user_id provided"}, status=400)
     @api_view(['POST'])
     def makePost(request):
         user_id = request.data['user_id']

@@ -6,7 +6,7 @@ export default function MakePost() {
   const { user } = useContext(AuthContext);
   const [caption, setCaption] = useState('');
   const [image, setImage] = useState(null);
-
+  const [message, setMessage] = useState('')
   const handleCaptionChange = (e) => {
     setCaption(e.target.value);
   };
@@ -33,9 +33,9 @@ export default function MakePost() {
                   },
               }
               );
-      console.log(response.data);
+      setMessage(['Posted'])
     }catch(error){
-      console.error(error.response.data.message);
+      setMessage('Unable to Post')
     }
   };
   return (
@@ -64,6 +64,7 @@ export default function MakePost() {
         />
         <button type="submit">Submit</button>
       </form>
+      <p>{message}</p>
     </div>
   )
 }
