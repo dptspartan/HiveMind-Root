@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react'
 import { AuthContext } from '../AuthContext';
 import axios from 'axios';
+import '../App.css';
 
 export default function MakePost() {
   const { user } = useContext(AuthContext);
@@ -39,14 +40,14 @@ export default function MakePost() {
     }
   };
   return (
-    <div className="App">
+    <div id="make-post-container">
       <h2>Create a Post</h2>
-      <form onSubmit={handleSubmit}>
+      <form iid="make-post-form" onSubmit={handleSubmit}>
         <label htmlFor="caption">Caption:</label>
         <textarea
           id="caption"
           name="caption"
-          rows="4"
+          rows="2"
           cols="50"
           value={caption}
           onChange={handleCaptionChange}
@@ -62,9 +63,10 @@ export default function MakePost() {
           onChange={handleImageChange}
           required
         />
-        <button type="submit">Submit</button>
+        <button type="submit">Post</button>
       </form>
-      <p>{message}</p>
+      <p id="make-post-message">{message}</p>
+      <br></br>
     </div>
   )
 }

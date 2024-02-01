@@ -88,9 +88,14 @@ export default function MainPage() {
           {seefrndReqs? <div>
             {friendRequests.map((request) => (
             <FriendReqs key={request.id} foundrequest={request} />
+        
             ))}
+            
+
           </div> : <></>}
+          
           <div className='Friends'>
+            <p><strong>Friends</strong></p>
             {friends.map((friend) => (
             <Friend key={friend.id} foundfriend={friend} />
             ))}

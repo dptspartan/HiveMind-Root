@@ -155,7 +155,7 @@ class PostView:
                 if posts.exists():
                     postsserialized = PostSerializer(posts, many=True)
                     return Response({"message": "Found these posts", "posts": postsserialized.data})
-                return Response({"message": "No Posts Here"}, status=200)
+                return Response({"message": "No Posts Here","posts":[]}, status=200)
 
             except User.DoesNotExist:
                 return Response({"message": "User not found"}, status=404)
